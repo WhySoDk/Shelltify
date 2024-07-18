@@ -1,11 +1,17 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
-import sys
+import sys, os
 
 import windowbar
 import SpotifyAPI
 import colorPicker
+import ctypes
+    
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
     
 class Window(QWidget):
     
@@ -115,8 +121,25 @@ last_track_name = ''
 
 app = QApplication(sys.argv)
 
-id = QFontDatabase.addApplicationFont("res\\fonts\\JetbrainMono\\static\\JetBrainsMono-SemiBold.ttf")
-QFontDatabase.addApplicationFont("res\\fonts\\Noto_Sans_Thai\\static\\NotoSansThai-SemiBold.ttf")
+id = QFontDatabase.addApplicationFont(resource_path("res/fonts/JetbrainMono/static/JetBrainsMono-SemiBold.ttf"))
+QFontDatabase.addApplicationFont(resource_path("res/fonts/Noto_Sans_Thai/static/NotoSansThai-SemiBold.ttf"))
+
+#thanks 
+#https://stackoverflow.com/questions/1551605/how-to-set-applications-taskbar-icon-in-windows-7/1552105#1552105
+myappid = 'temp.temp.temp.0.0.1'
+ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)
+
+#thanks
+#https://stackoverflow.com/questions/12432637/setting-the-windows-taskbar-icon-in-pyqt
+#The Icons does not pronounce enough in small resolution, but w8ever.
+app_icon = QIcon()
+app_icon.addFile(resource_path("res/Icon/ShelltifyIconBrightest16x16.png"), QSize(16,16))
+app_icon.addFile(resource_path("res/Icon/ShelltifyIconBrightest24x24.png"), QSize(24,24))
+app_icon.addFile(resource_path("res/Icon/ShelltifyIconBrightest32x32.png"), QSize(32,32))
+app_icon.addFile(resource_path("res/Icon/ShelltifyIconBrightest48x48.png"), QSize(48,48))
+app_icon.addFile(resource_path("res/Icon/ShelltifyIconBrightest256x256.png"), QSize(256,256))
+app.setWindowIcon(app_icon)
+
 _fontstr = QFontDatabase.applicationFontFamilies(id)[0]
 _font = QFont(_fontstr, 13)
 app.setFont(_font)

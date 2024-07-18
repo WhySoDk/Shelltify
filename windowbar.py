@@ -1,6 +1,12 @@
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from PyQt5.QtWidgets import *
+import sys, os
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
 class MyBar(QWidget):
 
@@ -39,7 +45,7 @@ class MyBar(QWidget):
 
         self.minimize_button = QPushButton()
         self.minimize_button.setFixedSize(30, 30)
-        self.minimize_button.setIcon(QIcon('res\drawable\minimize_white.png'))
+        self.minimize_button.setIcon(QIcon(resource_path('res\\drawable\\minimize_white.png')))
         self.minimize_button.setIconSize(QSize(20, 20))
         self.minimize_button.setStyleSheet("background-color: none; border: none;")
         self.minimize_button.setStyleSheet(button_style)
@@ -47,7 +53,7 @@ class MyBar(QWidget):
 
         self.close_button = QPushButton()
         self.close_button.setFixedSize(30, 30)
-        self.close_button.setIcon(QIcon('res\drawable\close2_white.png'))
+        self.close_button.setIcon(QIcon(resource_path('res\\drawable\\close2_white.png')))
         self.close_button.setIconSize(QSize(20, 20))
         self.close_button.setStyleSheet("background-color: none; border: none;")
         self.close_button.setStyleSheet(button_style)
