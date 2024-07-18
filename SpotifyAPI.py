@@ -1,8 +1,15 @@
-import os
+import os, sys
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 from dotenv import load_dotenv
-load_dotenv()
+
+def resource_path(relative_path):
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+env_path = resource_path('.env')
+load_dotenv(env_path)
 
 class SpotifyClient:
 
